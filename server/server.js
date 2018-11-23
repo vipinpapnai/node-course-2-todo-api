@@ -2,6 +2,7 @@ const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
+const {authenticate} = require('./middleware/authenticate');
 
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
@@ -103,6 +104,10 @@ app.post('/users',(req,res)=>{
   })
 });
 
+
+app.get('/users/me',authenticate,(req,res)=>{
+    res.send(req.user);
+});
 
 app.listen(port,()=>{
   console.log(`Started on port ${port}`);
